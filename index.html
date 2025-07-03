@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Funciones Matemáticas - GeoGebra</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.geogebra.org/scripts/deployggb.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-logo">
+                <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/UNMSM_coatofarms_seal.svg/960px-UNMSM_coatofarms_seal.svg.png" alt="Logo" class="logo-image">
+            </div>
+            <div class="header-content">
+                <h1>🧮 Analizador de Funciones Matemáticas</h1>
+                <p>Análisis completo: dominio, rango, asíntotas, concavidad, gráfica y más</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Panel de entrada -->
+            <div class="input-panel">
+                <div class="function-input">
+                    <label for="functionInput">Ingresa tu función f(x):</label>
+                    <div class="input-container">
+                        <input type="text" id="functionInput" placeholder="ej: N / (1 + e^(-k * (x - t)))" autocomplete="off">
+                        <button id="analyzeBtn" class="btn-primary">Analizar</button>
+                    </div>
+                </div>
+
+                <!-- Botones de operadores frecuentes -->
+                <div class="operators-panel">
+                    <h3>Operadores frecuentes:</h3>
+                    <div class="operators-grid">
+                        <button class="operator-btn" data-op="^2">x²</button>
+                        <button class="operator-btn" data-op="^3">x³</button>
+                        <button class="operator-btn" data-op="^">^</button>
+                        <button class="operator-btn" data-op="*">×</button>
+                        <button class="operator-btn" data-op="/">/</button>
+                        <button class="operator-btn" data-op="+">+</button>
+                        <button class="operator-btn" data-op="-">-</button>
+                        <button class="operator-btn" data-op="sqrt(">√</button>
+                        <button class="operator-btn" data-op="log(">log</button>
+                        <button class="operator-btn" data-op="ln(">ln</button>
+                        <button class="operator-btn" data-op="sin(">sen</button>
+                        <button class="operator-btn" data-op="cos(">cos</button>
+                        <button class="operator-btn" data-op="tan(">tan</button>
+                        <button class="operator-btn" data-op="abs(">|x|</button>
+                        <button class="operator-btn" data-op="exp(">eˣ</button>
+                        <button class="operator-btn" data-op="(">(</button>
+                        <button class="operator-btn" data-op=")">)</button>
+                        <button class="operator-btn" data-op="pi">π</button>
+                        <button class="operator-btn" data-op="e">e</button>
+                        <button class="operator-btn clear-btn">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de resultados -->
+            <div class="results-panel">
+                <!-- Gráfica -->
+                <div class="graph-container">
+                    <h3>Gráfica de la función</h3>
+                    <div id="geogebra-container"></div>
+                </div>
+
+                <!-- Análisis matemático -->
+                <div class="analysis-container">
+                    <div class="analysis-tabs">
+                        <button class="tab-btn active" data-tab="general">General</button>
+                        <button class="tab-btn" data-tab="derivatives">Extremos</button>
+                        <button class="tab-btn" data-tab="asymptotes">Asíntotas</button>
+                    </div>
+
+                    <div class="tab-content active" id="general">
+                        <div class="result-section">
+                            <h4>📊 Información General</h4>
+                            <div id="domainResult" class="result-item">
+                                <strong>Dominio:</strong> <span class="result-value">-</span>
+                            </div>
+                            <div id="rangeResult" class="result-item">
+                                <strong>Rango:</strong> <span class="result-value">-</span>
+                            </div>
+                            <div id="symmetryResult" class="result-item">
+                                <strong>Simetría:</strong> <span class="result-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="derivatives">
+                        <div class="result-section">
+                            <h4>📈 Valores Extremos</h4>
+                            <div id="extremeValuesResult" class="result-item">
+                                <strong>Valores extremos:</strong>
+                                <div class="result-value">
+                                    <div>Máximos absolutos: <span id="absoluteMaxima">-</span></div>
+                                    <div>Mínimos absolutos: <span id="absoluteMinima">-</span></div>
+                                    <div>Máximos locales: <span id="localMaxima">-</span></div>
+                                    <div>Mínimos locales: <span id="localMinima">-</span></div>
+                                </div>
+                            </div>
+                            <div id="intervalsResult" class="result-item">
+                                <strong>Intervalos:</strong>
+                                <div class="result-value">
+                                    <div>Creciente: <span id="increasingIntervals">-</span></div>
+                                    <div>Decreciente: <span id="decreasingIntervals">-</span></div>
+                                </div>
+                            </div>
+                            <div id="concavityResult" class="result-item">
+                                <strong>Concavidad:</strong>
+                                <div class="result-value">
+                                    <div>Cóncava hacia arriba: <span id="concaveUpIntervals">-</span></div>
+                                    <div>Cóncava hacia abajo: <span id="concaveDownIntervals">-</span></div>
+                                    <div>Puntos de inflexión: <span id="inflectionPoints">-</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="asymptotes">
+                        <div class="result-section">
+                            <h4>📏 Asíntotas</h4>
+                            <div id="asymptotesResult" class="result-item">
+                                <div class="result-value">
+                                    <div>Verticales: <span id="verticalAsymptotes">-</span></div>
+                                    <div>Horizontales: <span id="horizontalAsymptotes">-</span></div>
+                                    <div>Oblicuas: <span id="obliqueAsymptotes">-</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <p>Graficando función...</p>
+        </div>
+
+        <!-- Error modal -->
+        <div id="errorModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Error en el análisis</h3>
+                <p id="errorMessage">Ha ocurrido un error al analizar la función.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
